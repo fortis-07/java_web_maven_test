@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clone the repository
-                git branch: 'main', url: 'https://github.com/fortis-07/java_web_maven_test'
+                git branch: 'main', url: 'https://github.com/fortis-07/java_web_maven_test.git'
             }
         }
         
@@ -37,7 +37,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                branch 'main' // Deploy only from the main branch
+                branch 'dev' // Deploy only from the dev branch
             }
             steps {
                 // Deploy the application (this can be customized based on your deployment strategy)
