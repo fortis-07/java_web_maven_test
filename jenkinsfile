@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    environment {
+        JAVA_HOME = tool name: 'JDK 11', type: 'jdk' // Ensure JDK 11 is installed on Jenkins
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository
+                git branch: 'main', url: 'https://github.com/fortis-07/java_web_maven_test'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Clean and build the Maven project
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run unit tests
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                // Package the application into a JAR file
+                sh 'mvn package'
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                branch 'main' // Deploy only from the main branch
+            }
+            steps {
+                // Deploy the application (this can be customized based on your deployment strategy)
+                sh 'scp target/your-app.jar user@your-server:/path/to/deployment/'
+            }
+        }
+    }
+
+    post {
+        success {
+            // Actions to take upon a successful pipeline run
+            echo 'Build, Test, and Deployment completed successfully.'
+        }
+        failure {
+            // Actions to take if the pipeline fails
+            echo 'Pipeline failed. Check the logs for details.'
+        }
+    }
+}
