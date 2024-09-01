@@ -1,8 +1,12 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'JDK 11' // Make sure this matches the name in Jenkins Global Tool Configuration
+    }
+
     environment {
-        JAVA_HOME = tool name: 'JDK 11', type: 'jdk' // Ensure JDK 11 is installed on Jenkins
+        JAVA_HOME = "${tool 'JDK 11'}"
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
