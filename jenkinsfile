@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clone the repository
-                git branch: 'main', url: 'https://github.com/fortis-07/java_web_maven_test.git'
+                git branch: 'dev', url: 'https://github.com/fortis-07/java_web_maven_test.git'
             }
         }
         
